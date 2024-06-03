@@ -1,0 +1,18 @@
+#
+# C-CodeCamp-2024					June 02, 2024
+#
+# source: src/ch1/1.17/Celsius-to-Fahrenheit/make-inc
+# author: @misael-diaz
+#
+# Synopsis:
+# Defines the include file for building the program with GNU make.
+#
+# Copyright (c) 2024 Misael Díaz-Maldonado
+# This file is released under the GNU General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+
+C2F_C = Celsius-to-Fahrenheit.c
+C2F_O = Celsius-to-Fahrenheit.o
+C2F_BIN = Celsius-to-Fahrenheit.bin
