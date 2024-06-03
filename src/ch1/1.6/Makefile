@@ -2,7 +2,7 @@
 #
 # C-CodeCamp-2024					June 02, 2024
 #
-# source: src/ch1/Makefile
+# source: src/ch1/1.6/Makefile
 # author: @misael-diaz
 #
 # Synopsis:
@@ -14,17 +14,9 @@
 # (at your option) any later version.
 #
 
-all:	problem1.4\
-	problem1.6\
-	problem1.17
+all: CBTN
 
-problem1.4:
-	@$(MAKE) -C 1.4
-problem1.6:
-	@$(MAKE) -C 1.6
-problem1.17:
-	@$(MAKE) -C 1.17
+CBTN:
+	@$(MAKE) -C count-blanks-tabs-newlines
 clean:
-	@$(MAKE) -C 1.4 clean
-	@$(MAKE) -C 1.6 clean
-	@$(MAKE) -C 1.17 clean
+	@$(MAKE) -C count-blanks-tabs-newlines clean
