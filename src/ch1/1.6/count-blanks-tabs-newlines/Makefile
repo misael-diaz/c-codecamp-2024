@@ -2,7 +2,7 @@
 #
 # C-CodeCamp-2024					June 02, 2024
 #
-# source: src/ch1/Makefile
+# source: src/ch1/1.6/count-blanks-tabs-newlines/Makefile
 # author: @misael-diaz
 #
 # Synopsis:
@@ -14,17 +14,15 @@
 # (at your option) any later version.
 #
 
-all:	problem1.4\
-	problem1.6\
-	problem1.17
+include make-inc
 
-problem1.4:
-	@$(MAKE) -C 1.4
-problem1.6:
-	@$(MAKE) -C 1.6
-problem1.17:
-	@$(MAKE) -C 1.17
+all: $(CBTN_BIN)
+
+$(CBTN_BIN): $(CBTN_O)
+	$(CC) $(CCOPT) $(CBTN_O) -o $(CBTN_BIN)
+
+$(CBTN_O): $(CBTN_C)
+	$(CC) $(CCOPT) -c $(CBTN_C) -o $(CBTN_O)
+
 clean:
-	@$(MAKE) -C 1.4 clean
-	@$(MAKE) -C 1.6 clean
-	@$(MAKE) -C 1.17 clean
+	/bin/rm -f *.o *.bin
