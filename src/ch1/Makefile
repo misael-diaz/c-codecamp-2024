@@ -14,9 +14,13 @@
 # (at your option) any later version.
 #
 
-all: problem1.17
+all:	problem1.4\
+	problem1.17
 
+problem1.4:
+	@$(MAKE) -C 1.4
 problem1.17:
 	@$(MAKE) -C 1.17
 clean:
+	@$(MAKE) -C 1.4 clean
 	@$(MAKE) -C 1.17 clean
