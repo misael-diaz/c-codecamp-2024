@@ -1,0 +1,18 @@
+#
+# C-CodeCamp-2024					June 02, 2024
+#
+# source: src/ch1/1.7/make-inc
+# author: @misael-diaz
+#
+# Synopsis:
+# Defines the include file for building the program with GNU make.
+#
+# Copyright (c) 2024 Misael Díaz-Maldonado
+# This file is released under the GNU General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+
+MTSB_C = multiple-to-single-blanks.c
+MTSB_O = multiple-to-single-blanks.o
+MTSB_BIN = multiple-to-single-blanks.bin

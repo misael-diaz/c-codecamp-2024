@@ -2,7 +2,7 @@
 #
 # C-CodeCamp-2024					June 02, 2024
 #
-# source: src/ch1/Makefile
+# source: src/ch1/1.7/Makefile
 # author: @misael-diaz
 #
 # Synopsis:
@@ -14,21 +14,15 @@
 # (at your option) any later version.
 #
 
-all:	problem1.4\
-	problem1.6\
-	problem1.7\
-	problem1.17
+include make-inc
 
-problem1.4:
-	@$(MAKE) -C 1.4
-problem1.6:
-	@$(MAKE) -C 1.6
-problem1.7:
-	@$(MAKE) -C 1.7
-problem1.17:
-	@$(MAKE) -C 1.17
+all: $(MTSB_BIN)
+
+$(MTSB_BIN): $(MTSB_O)
+	$(CC) $(CCOPT) $(MTSB_O) -o $(MTSB_BIN)
+
+$(MTSB_O): $(MTSB_C)
+	$(CC) $(CCOPT) -c $(MTSB_C) -o $(MTSB_O)
+
 clean:
-	@$(MAKE) -C 1.4 clean
-	@$(MAKE) -C 1.6 clean
-	@$(MAKE) -C 1.7 clean
-	@$(MAKE) -C 1.17 clean
+	/bin/rm -f *.o *.bin
