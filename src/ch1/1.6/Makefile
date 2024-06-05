@@ -14,9 +14,15 @@
 # (at your option) any later version.
 #
 
-all: CBTN
+include make-inc
 
-CBTN:
-	@$(MAKE) -C count-blanks-tabs-newlines
+all: $(CBTN_BIN)
+
+$(CBTN_BIN): $(CBTN_O)
+	$(CC) $(CCOPT) $(CBTN_O) -o $(CBTN_BIN)
+
+$(CBTN_O): $(CBTN_C)
+	$(CC) $(CCOPT) -c $(CBTN_C) -o $(CBTN_O)
+
 clean:
-	@$(MAKE) -C count-blanks-tabs-newlines clean
+	/bin/rm -f *.o *.bin

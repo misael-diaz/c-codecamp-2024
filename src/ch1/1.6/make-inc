@@ -1,7 +1,7 @@
 #
 # C-CodeCamp-2024					June 02, 2024
 #
-# source: src/ch1/1.17/Celsius-to-Fahrenheit/make-inc
+# source: src/ch1/1.6/make-inc
 # author: @misael-diaz
 #
 # Synopsis:
@@ -13,6 +13,6 @@
 # (at your option) any later version.
 #
 
-C2F_C = Celsius-to-Fahrenheit.c
-C2F_O = Celsius-to-Fahrenheit.o
-C2F_BIN = Celsius-to-Fahrenheit.bin
+CBTN_C = count-blanks-tabs-newlines.c
+CBTN_O = count-blanks-tabs-newlines.o
+CBTN_BIN = count-blanks-tabs-newlines.bin

@@ -14,9 +14,15 @@
 # (at your option) any later version.
 #
 
-all: swap-strings
+include make-inc
 
-swap-strings:
-	@$(MAKE) -C swap-string
+all: $(SWAP_STRING_BIN)
+
+$(SWAP_STRING_BIN): $(SWAP_STRING_O)
+	$(CC) $(CCOPT) $(SWAP_STRING_O) -o $(SWAP_STRING_BIN)
+
+$(SWAP_STRING_O): $(HEADERS) $(SWAP_STRING_C)
+	$(CC) $(INC) $(CCOPT) -c $(SWAP_STRING_C) -o $(SWAP_STRING_O)
+
 clean:
-	@$(MAKE) -C swap-string clean
+	/bin/rm -f *.o *.bin

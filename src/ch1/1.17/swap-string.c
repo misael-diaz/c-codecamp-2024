@@ -46,7 +46,7 @@ void swap (char *str)
 
 C-CodeCamp-2024                                       June 02, 2024
 
-source: src/ch1/1.17/swap-string/swap-string.c
+source: src/ch1/1.17/swap-string.c
 author: @misael-diaz
 
 Synopsis:
