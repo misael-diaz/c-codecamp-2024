@@ -2,7 +2,7 @@
 #
 # C-CodeCamp-2024					June 02, 2024
 #
-# source: src/ch1/1.17/Makefile
+# source: src/ch1/1.17/Celsius-to-Fahrenheit/Makefile
 # author: @misael-diaz
 #
 # Synopsis:
@@ -14,9 +14,15 @@
 # (at your option) any later version.
 #
 
-all: C2F
+include make-inc
 
-C2F:
-	@$(MAKE) -C Celsius-to-Fahrenheit
+all: $(C2F_BIN)
+
+$(C2F_BIN): $(C2F_O)
+	$(CC) $(CCOPT) $(C2F_O) -o $(C2F_BIN)
+
+$(C2F_O): $(C2F_C)
+	$(CC) $(CCOPT) -c $(C2F_C) -o $(C2F_O)
+
 clean:
-	@$(MAKE) -C Celsius-to-Fahrenheit clean
+	/bin/rm -f *.o *.bin
