@@ -53,7 +53,7 @@ size_t map (char c)
 
 C-CodeCamp-2024                                       June 02, 2024
 
-source: src/ch1/1.6/count-blanks-tabs-newlines/count-blanks-tabs-newlines.c
+source: src/ch1/1.6/count-blanks-tabs-newlines.c
 author: @misael-diaz
 
 Synopsis:

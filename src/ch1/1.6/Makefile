@@ -2,7 +2,7 @@
 #
 # C-CodeCamp-2024					June 02, 2024
 #
-# source: src/ch1/1.6/count-blanks-tabs-newlines/Makefile
+# source: src/ch1/1.6/Makefile
 # author: @misael-diaz
 #
 # Synopsis:

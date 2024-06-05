@@ -2,7 +2,7 @@
 #
 # C-CodeCamp-2024					June 02, 2024
 #
-# source: src/ch1/1.17/swap-string/Makefile
+# source: src/ch1/1.17/Makefile
 # author: @misael-diaz
 #
 # Synopsis:
