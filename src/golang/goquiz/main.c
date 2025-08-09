@@ -33,8 +33,10 @@ int main()
 			fprintf(stdout, "%s", lineptr);
 		}
 	} while (sw);
-	free(lineptr);
-	lineptr = NULL;
-	n = 0;
+	if (lineptr) {
+		free(lineptr);
+		lineptr = NULL;
+		n = 0;
+	}
 	return 0;
 }
