@@ -96,21 +96,27 @@ int main()
 			if (-1 == tokenize(tokens[0], beg, end, ',')) {
 				goto err;
 			}
-			fprintf(stdout, "token: %s\n", tokens[0]);
 			if (-1 == parse(&iter, &beg, &end, ',')) {
 				goto err;
 			}
 			if (-1 == tokenize(tokens[1], beg, end, ',')) {
 				goto err;
 			}
-			fprintf(stdout, "token: %s\n", tokens[1]);
 			if (-1 == parse(&iter, &beg, &end, '\n')) {
 				goto err;
 			}
 			if (-1 == tokenize(tokens[2], beg, end, '\n')) {
 				goto err;
 			}
-			fprintf(stdout, "token: %s\n", tokens[2]);
+			if (!strcmp("math", tokens[0])) {
+				long const res = atol(tokens[2]);
+				fprintf(stdout, "result: %ld\n", res);
+			} else if (!strcmp("text", tokens[0])) {
+				fprintf(stdout, "result: %s\n", tokens[2]);
+			} else {
+				fprintf(stderr, "main: %s\n", "ProblemTypeError");
+				goto err;
+			}
 		}
 	} while (sw);
 	if (lineptr) {
