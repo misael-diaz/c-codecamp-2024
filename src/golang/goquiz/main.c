@@ -3,28 +3,64 @@
 #include <string.h>
 #include <errno.h>
 
+#define MAX_TOKEN_SIZE 80
+
 ssize_t parse(
 		char const ** const iter,
+		char const ** const beg,
+		char const ** const end,
 		char const delim
 )
 {
 	ssize_t count = 0;
-	char const *beg = *iter;
+	*beg = *iter;
 	while ((**iter) && (delim != **iter)) {
 		++*iter;
 	}
-	char const *end = *iter;
 	if (!**iter) {
 		count = -1;
+		fprintf(stderr, "parse: %s\n", "FormatCSVError");
 	} else {
-		count = (end - beg);
 		++*iter;
+		*end = *iter;
+		count = (*end - *beg);
+		if ('\n' == delim && **iter) {
+			count = -1;
+			fprintf(stderr, "parse: %s\n", "TrailCSVError");
+		}
 	}
 	return count;
 }
 
+ssize_t tokenize(
+		char *token,
+		char const *beg,
+		char const *end,
+		char const delim
+)
+{
+	ssize_t const bytes = (end - beg);
+	ssize_t const len = (bytes - 1);
+	if (
+		(0 >= bytes) ||
+		(MAX_TOKEN_SIZE < bytes)
+	   ) {
+		fprintf(stderr, "tokenize: %s\n", "TokenSizeError");
+		return -1;
+	}
+	memset(token, 0, MAX_TOKEN_SIZE);
+	memcpy(token, beg, bytes);
+	if (delim != token[len]) {
+		fprintf(stderr, "tokenize: %s\n", "TokenDelimeterError");
+		return -1;
+	}
+	token[len] = 0;
+	return len;
+}
+
 int main()
 {
+	char token[MAX_TOKEN_SIZE];
 	errno = 0;
 	FILE *file = fopen("problems.csv", "r");
 	if (!file) {
@@ -51,10 +87,30 @@ int main()
 			fprintf(stdout, "%s\n", "EOF");
 		} else {
 			char const *iter = lineptr;
+			char const *beg = NULL;
+			char const *end = NULL;
 			fprintf(stdout, "%s", lineptr);
-			fprintf(stdout, "count: %ld\n", parse(&iter, ','));
-			fprintf(stdout, "count: %ld\n", parse(&iter, ','));
-			fprintf(stdout, "count: %ld\n", parse(&iter, '\n'));
+			if (-1 == parse(&iter, &beg, &end, ',')) {
+				goto err;
+			}
+			if (-1 == tokenize(token, beg, end, ',')) {
+				goto err;
+			}
+			fprintf(stdout, "token: %s\n", token);
+			if (-1 == parse(&iter, &beg, &end, ',')) {
+				goto err;
+			}
+			if (-1 == tokenize(token, beg, end, ',')) {
+				goto err;
+			}
+			fprintf(stdout, "token: %s\n", token);
+			if (-1 == parse(&iter, &beg, &end, '\n')) {
+				goto err;
+			}
+			if (-1 == tokenize(token, beg, end, '\n')) {
+				goto err;
+			}
+			fprintf(stdout, "token: %s\n", token);
 		}
 	} while (sw);
 	if (lineptr) {
@@ -64,4 +120,14 @@ int main()
 	}
 	fclose(file);
 	return 0;
+err:
+	{
+		if (lineptr) {
+			free(lineptr);
+			lineptr = NULL;
+			n = 0;
+		}
+		fclose(file);
+		exit(EXIT_FAILURE);
+	}
 }
