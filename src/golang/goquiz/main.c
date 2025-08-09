@@ -3,6 +3,26 @@
 #include <string.h>
 #include <errno.h>
 
+ssize_t parse(
+		char const ** const iter,
+		char const delim
+)
+{
+	ssize_t count = 0;
+	char const *beg = *iter;
+	while ((**iter) && (delim != **iter)) {
+		++*iter;
+	}
+	char const *end = *iter;
+	if (!**iter) {
+		count = -1;
+	} else {
+		count = (end - beg);
+		++*iter;
+	}
+	return count;
+}
+
 int main()
 {
 	errno = 0;
@@ -30,7 +50,11 @@ int main()
 			}
 			fprintf(stdout, "%s\n", "EOF");
 		} else {
+			char const *iter = lineptr;
 			fprintf(stdout, "%s", lineptr);
+			fprintf(stdout, "count: %ld\n", parse(&iter, ','));
+			fprintf(stdout, "count: %ld\n", parse(&iter, ','));
+			fprintf(stdout, "count: %ld\n", parse(&iter, '\n'));
 		}
 	} while (sw);
 	if (lineptr) {
