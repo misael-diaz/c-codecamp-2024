@@ -38,5 +38,6 @@ int main()
 		lineptr = NULL;
 		n = 0;
 	}
+	fclose(file);
 	return 0;
 }
