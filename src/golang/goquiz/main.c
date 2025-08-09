@@ -162,6 +162,9 @@ int main()
 			if (-1 == trim(&iter, &beg, &end)) {
 				fprintf(stderr, "main: %s\n", "UXInputError");
 				goto err;
+			} else if (!beg || !end) {
+				fprintf(stderr, "main: %s\n", "UXNullError");
+				goto err;
 			}
 			memset(word, 0, MAX_TOKEN_SIZE);
 			ssize_t const bytes = (end - beg);
