@@ -60,7 +60,7 @@ ssize_t tokenize(
 
 int main()
 {
-	char token[MAX_TOKEN_SIZE];
+	char tokens[3][MAX_TOKEN_SIZE];
 	errno = 0;
 	FILE *file = fopen("problems.csv", "r");
 	if (!file) {
@@ -93,24 +93,24 @@ int main()
 			if (-1 == parse(&iter, &beg, &end, ',')) {
 				goto err;
 			}
-			if (-1 == tokenize(token, beg, end, ',')) {
+			if (-1 == tokenize(tokens[0], beg, end, ',')) {
 				goto err;
 			}
-			fprintf(stdout, "token: %s\n", token);
+			fprintf(stdout, "token: %s\n", tokens[0]);
 			if (-1 == parse(&iter, &beg, &end, ',')) {
 				goto err;
 			}
-			if (-1 == tokenize(token, beg, end, ',')) {
+			if (-1 == tokenize(tokens[1], beg, end, ',')) {
 				goto err;
 			}
-			fprintf(stdout, "token: %s\n", token);
+			fprintf(stdout, "token: %s\n", tokens[1]);
 			if (-1 == parse(&iter, &beg, &end, '\n')) {
 				goto err;
 			}
-			if (-1 == tokenize(token, beg, end, '\n')) {
+			if (-1 == tokenize(tokens[2], beg, end, '\n')) {
 				goto err;
 			}
-			fprintf(stdout, "token: %s\n", token);
+			fprintf(stdout, "token: %s\n", tokens[2]);
 		}
 	} while (sw);
 	if (lineptr) {
