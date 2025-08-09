@@ -2,7 +2,7 @@
 #
 # C-CodeCamp-2024					June 02, 2024
 #
-# source: src/Makefile
+# source: src/golang/goquiz/Makefile
 # author: @misael-diaz
 #
 # Synopsis:
@@ -14,12 +14,15 @@
 # (at your option) any later version.
 #
 
-all: chapter1 go
+include make-inc
 
-chapter1:
-	@$(MAKE) -C ch1
-go:
-	@$(MAKE) -C golang
+all: $(GOQUIZ_BIN)
+
+$(GOQUIZ_BIN): $(GOQUIZ_O)
+	$(CC) $(CCOPT) $(GOQUIZ_O) -o $(GOQUIZ_BIN)
+
+$(GOQUIZ_O): $(HEADERS) $(GOQUIZ_C)
+	$(CC) $(INC) $(CCOPT) -c $(GOQUIZ_C) -o $(GOQUIZ_O)
+
 clean:
-	@$(MAKE) -C ch1 clean
-	@$(MAKE) -C golang clean
+	/bin/rm -f *.o *.bin

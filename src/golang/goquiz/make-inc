@@ -1,12 +1,11 @@
-#!/usr/bin/make
 #
 # C-CodeCamp-2024					June 02, 2024
 #
-# source: src/Makefile
+# source: src/golang/goquiz/make-inc
 # author: @misael-diaz
 #
 # Synopsis:
-# Defines the Makefile for building the program with GNU make.
+# Defines the include file for building the program with GNU make.
 #
 # Copyright (c) 2024 Misael Díaz-Maldonado
 # This file is released under the GNU General Public License as published
@@ -14,12 +13,6 @@
 # (at your option) any later version.
 #
 
-all: chapter1 go
-
-chapter1:
-	@$(MAKE) -C ch1
-go:
-	@$(MAKE) -C golang
-clean:
-	@$(MAKE) -C ch1 clean
-	@$(MAKE) -C golang clean
+GOQUIZ_C = main.c
+GOQUIZ_O = main.o
+GOQUIZ_BIN = quiz.bin

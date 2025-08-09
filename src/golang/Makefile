@@ -14,12 +14,9 @@
 # (at your option) any later version.
 #
 
-all: chapter1 go
+all: quiz
 
-chapter1:
-	@$(MAKE) -C ch1
-go:
-	@$(MAKE) -C golang
+quiz:
+	@$(MAKE) -C goquiz
 clean:
-	@$(MAKE) -C ch1 clean
-	@$(MAKE) -C golang clean
+	@$(MAKE) -C goquiz clean
