@@ -177,12 +177,7 @@ int main()
 			sw = 0;
 			if (errno) {
 				fprintf(stderr, "main: %s\n", strerror(errno));
-				if (lineptr) {
-					free(lineptr);
-					lineptr = NULL;
-					n = 0;
-				}
-				exit(EXIT_FAILURE);
+				goto err;
 			}
 			fprintf(stdout, "%s\n", "EOF");
 			break;
@@ -224,7 +219,7 @@ int main()
 	if (textptr) {
 		free(textptr);
 		textptr = NULL;
-		n = 0;
+		m = 0;
 	}
 	fclose(file);
 	return 0;
@@ -234,6 +229,11 @@ err:
 			free(lineptr);
 			lineptr = NULL;
 			n = 0;
+		}
+		if (textptr) {
+			free(textptr);
+			textptr = NULL;
+			m = 0;
 		}
 		fclose(file);
 		exit(EXIT_FAILURE);
