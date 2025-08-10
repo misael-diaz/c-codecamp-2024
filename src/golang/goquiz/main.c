@@ -126,7 +126,6 @@ ssize_t prompt(
 		fprintf(stderr, "prompt: %s\n", strerror(errno));
 		return -1;
 	}
-	fprintf(stdout, "input: %s", *textptr);
 	if (MAX_TOKEN_SIZE < (1 + strlen(*textptr))) {
 		fprintf(stderr, "prompt: %s\n", "TokenSizeError");
 		return -1;
@@ -162,6 +161,8 @@ int main()
 		fprintf(stderr, "main: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
+	int ncorrect = 0;
+	int nproblems = 0;
 	char const *type = NULL;
 	char const *question = NULL;
 	char const *answer = NULL;
@@ -200,14 +201,20 @@ int main()
 		}
 		if (!strcmp("math", type)) {
 			long const res = atol(answer);
-			fprintf(stdout, "result: %ld\n", res);
+			long const ans = atol(word);
+			if (ans == res) {
+				++ncorrect;
+			}
 		} else if (!strcmp("text", type)) {
 			fprintf(stdout, "result: %s\n", answer);
 		} else {
 			fprintf(stderr, "main: %s\n", "ProblemTypeError");
 			goto err;
 		}
+		++nproblems;
 	} while (sw);
+	fprintf(stdout, "number of problems: %d\n", nproblems);
+	fprintf(stdout, "number of correct math problems: %d\n", ncorrect);
 	if (lineptr) {
 		free(lineptr);
 		lineptr = NULL;
