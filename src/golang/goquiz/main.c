@@ -86,6 +86,72 @@ ssize_t trim(
 	return 0;
 }
 
+ssize_t getTokens(
+	char tokens[][MAX_TOKEN_SIZE],
+	char const *lineptr
+)
+{
+	char const *iter = lineptr;
+	char const *beg = NULL;
+	char const *end = NULL;
+	if (-1 == parse(&iter, &beg, &end, ',')) {
+		return -1;
+	}
+	if (-1 == tokenize(tokens[0], beg, end, ',')) {
+		return -1;
+	}
+	if (-1 == parse(&iter, &beg, &end, ',')) {
+		return -1;
+	}
+	if (-1 == tokenize(tokens[1], beg, end, ',')) {
+		return -1;
+	}
+	if (-1 == parse(&iter, &beg, &end, '\n')) {
+		return -1;
+	}
+	if (-1 == tokenize(tokens[2], beg, end, '\n')) {
+		return -1;
+	}
+	return 0;
+}
+
+ssize_t prompt(
+		char * const * const word,
+		char ** const textptr,
+		size_t * const textcap
+)
+{
+	errno = 0;
+	if (-1 == getline(textptr, textcap, stdin)) {
+		fprintf(stderr, "prompt: %s\n", strerror(errno));
+		return -1;
+	}
+	fprintf(stdout, "input: %s", *textptr);
+	if (MAX_TOKEN_SIZE < (1 + strlen(*textptr))) {
+		fprintf(stderr, "prompt: %s\n", "TokenSizeError");
+		return -1;
+	}
+	char *iter = *textptr;
+	char *beg = NULL;
+	char *end = NULL;
+	if (-1 == trim(&iter, &beg, &end)) {
+		fprintf(stderr, "prompt: %s\n", "UXInputError");
+		return -1;
+	} else if (!beg || !end) {
+		fprintf(stderr, "prompt: %s\n", "UXNullError");
+		return -1;
+	}
+	memset(*word, 0, MAX_TOKEN_SIZE);
+	ssize_t const bytes = (end - beg);
+	if (0 >= bytes) {
+		fprintf(stderr, "prompt: %s\n", "UXInputSizeError");
+		return -1;
+	}
+	memcpy(*word, beg, bytes);
+	fprintf(stdout, "word: %s\n", *word);
+	return 0;
+}
+
 int main()
 {
 	char tokens[3][MAX_TOKEN_SIZE];
@@ -121,59 +187,16 @@ int main()
 			fprintf(stdout, "%s\n", "EOF");
 			break;
 		}
-		char const *iter = lineptr;
-		char const *beg = NULL;
-		char const *end = NULL;
-		if (-1 == parse(&iter, &beg, &end, ',')) {
-			goto err;
-		}
-		if (-1 == tokenize(tokens[0], beg, end, ',')) {
-			goto err;
-		}
-		if (-1 == parse(&iter, &beg, &end, ',')) {
-			goto err;
-		}
-		if (-1 == tokenize(tokens[1], beg, end, ',')) {
-			goto err;
-		}
-		if (-1 == parse(&iter, &beg, &end, '\n')) {
-			goto err;
-		}
-		if (-1 == tokenize(tokens[2], beg, end, '\n')) {
+		if (-1 == getTokens(tokens, lineptr)) {
 			goto err;
 		}
 		type = tokens[0];
 		question = tokens[1];
 		answer = tokens[2];
 		fprintf(stdout, "prompt: %s\n", question);
-		errno = 0;
-		if (-1 == getline(&textptr, &m, stdin)) {
-			fprintf(stderr, "main: %s\n", strerror(errno));
+		char *w = &word[0];
+		if (-1 == prompt(&w, &textptr, &m)) {
 			goto err;
-		} else {
-			fprintf(stdout, "input: %s", textptr);
-			if (MAX_TOKEN_SIZE < (1 + strlen(textptr))) {
-				fprintf(stderr, "main: %s\n", "TokenSizeError");
-				goto err;
-			}
-			char *iter = textptr;
-			char *beg = NULL;
-			char *end = NULL;
-			if (-1 == trim(&iter, &beg, &end)) {
-				fprintf(stderr, "main: %s\n", "UXInputError");
-				goto err;
-			} else if (!beg || !end) {
-				fprintf(stderr, "main: %s\n", "UXNullError");
-				goto err;
-			}
-			memset(word, 0, MAX_TOKEN_SIZE);
-			ssize_t const bytes = (end - beg);
-			if (0 >= bytes) {
-				fprintf(stderr, "main: %s\n", "UXInputSizeError");
-				goto err;
-			}
-			memcpy(word, beg, bytes);
-			fprintf(stdout, "word: %s\n", word);
 		}
 		if (!strcmp("math", type)) {
 			long const res = atol(answer);
