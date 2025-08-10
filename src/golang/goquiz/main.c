@@ -147,7 +147,6 @@ ssize_t prompt(
 		return -1;
 	}
 	memcpy(*word, beg, bytes);
-	fprintf(stdout, "word: %s\n", *word);
 	return 0;
 }
 
@@ -206,7 +205,9 @@ int main()
 				++ncorrect;
 			}
 		} else if (!strcmp("text", type)) {
-			fprintf(stdout, "result: %s\n", answer);
+			if (!strcasecmp(word, answer)) {
+				++ncorrect;
+			}
 		} else {
 			fprintf(stderr, "main: %s\n", "ProblemTypeError");
 			goto err;
@@ -214,7 +215,7 @@ int main()
 		++nproblems;
 	} while (sw);
 	fprintf(stdout, "number of problems: %d\n", nproblems);
-	fprintf(stdout, "number of correct math problems: %d\n", ncorrect);
+	fprintf(stdout, "number of correct problems: %d\n", ncorrect);
 	if (lineptr) {
 		free(lineptr);
 		lineptr = NULL;
