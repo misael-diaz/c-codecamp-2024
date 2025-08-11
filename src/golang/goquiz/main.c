@@ -1,9 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <signal.h>
 #include <string.h>
 #include <errno.h>
 
 #define MAX_TOKEN_SIZE 80
+#define WALLTIME 30
+
+static int ncorrect = 0;
+static int nproblems = 0;
+
+void handler(int signum) {
+	fprintf(stdout, "number of problems: %d\n", nproblems);
+	fprintf(stdout, "number of correct problems: %d\n", ncorrect);
+	fprintf(stdout, "signal %d\n", signum);
+	exit(EXIT_SUCCESS);
+}
 
 ssize_t parse(
 		char const ** const iter,
@@ -152,6 +165,18 @@ ssize_t prompt(
 
 int main()
 {
+	errno = 0;
+	struct sigaction sa = {
+		.sa_handler = handler
+	};
+	if (-1 == sigaction(SIGALRM, &sa, NULL)) {
+		if (errno) {
+			fprintf(stderr, "main: %s\n", strerror(errno));
+		} else {
+			fprintf(stderr, "main: %s\n", "UXSignalError");
+		}
+		exit(EXIT_FAILURE);
+	}
 	char tokens[3][MAX_TOKEN_SIZE];
 	char word[MAX_TOKEN_SIZE];
 	errno = 0;
@@ -160,8 +185,6 @@ int main()
 		fprintf(stderr, "main: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
-	int ncorrect = 0;
-	int nproblems = 0;
 	char const *type = NULL;
 	char const *question = NULL;
 	char const *answer = NULL;
@@ -170,6 +193,8 @@ int main()
 	size_t n = 0;
 	size_t m = 0;
 	int sw = 1;
+	fprintf(stdout, "main: you have %d seconds to answer the quiz\n", WALLTIME);
+	alarm(WALLTIME);
 	do {
 		errno = 0;
 		ssize_t const bytes = getline(&lineptr, &n, file);
