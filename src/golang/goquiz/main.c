@@ -163,6 +163,30 @@ ssize_t prompt(
 	return 0;
 }
 
+int getNumProblems(
+		FILE * const file,
+		char ** const lineptr,
+		size_t * const linecap
+)
+{
+	int sw = 1;
+	do {
+		errno = 0;
+		ssize_t const bytes = getline(lineptr, linecap, file);
+		if (-1 == bytes) {
+			sw = 0;
+			if (errno) {
+				fprintf(stderr, "getNumProblems: %s\n", strerror(errno));
+				return -1;
+			}
+			break;
+		}
+		++nproblems;
+	} while (sw);
+	fseek(file, 0, SEEK_SET);
+	return 0;
+}
+
 int main()
 {
 	errno = 0;
@@ -193,6 +217,9 @@ int main()
 	size_t n = 0;
 	size_t m = 0;
 	int sw = 1;
+	if (-1 == getNumProblems(file, &lineptr, &n)) {
+		goto err;
+	}
 	fprintf(stdout, "main: you have %d seconds to answer the quiz\n", WALLTIME);
 	alarm(WALLTIME);
 	do {
