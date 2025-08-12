@@ -12,6 +12,7 @@ static int ncorrect = 0;
 static int nproblems = 0;
 
 void handler(int signum) {
+	fprintf(stdout, "%s", "time is up!\n");
 	fprintf(stdout, "number of problems: %d\n", nproblems);
 	fprintf(stdout, "number of correct problems: %d\n", ncorrect);
 	fprintf(stdout, "signal %d\n", signum);
@@ -261,8 +262,10 @@ int main()
 		}
 		++nproblems;
 	} while (sw);
+	unsigned int rt = alarm(0);
 	fprintf(stdout, "number of problems: %d\n", nproblems);
 	fprintf(stdout, "number of correct problems: %d\n", ncorrect);
+	fprintf(stdout, "you completed the test in: %d seconds\n", WALLTIME - rt);
 	if (lineptr) {
 		free(lineptr);
 		lineptr = NULL;
