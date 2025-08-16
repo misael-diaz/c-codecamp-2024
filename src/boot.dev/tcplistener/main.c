@@ -9,11 +9,11 @@
 #include <string.h>
 #include <errno.h>
 
-#define PORT 8000 
+#define PORT 8000
 #define LISTEN_BACKLOG 40
 #define BUFSZ 1024
 
-// implements a tcp listener that just listens on port `PORT` on the loopback-device 
+// implements a tcp listener that just listens on port `PORT` on the loopback-device
 int main()
 {
 	char buf[BUFSZ];

@@ -21,7 +21,7 @@ chapter1:
 go:
 	@$(MAKE) -C golang
 boot-dev:
-	@$(MAKE) -C boot.dev 
+	@$(MAKE) -C boot.dev
 clean:
 	@$(MAKE) -C ch1 clean
 	@$(MAKE) -C golang clean

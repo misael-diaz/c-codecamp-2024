@@ -17,6 +17,6 @@
 all: tcp-listener
 
 tcp-listener:
-	@$(MAKE) -C tcplistener 
+	@$(MAKE) -C tcplistener
 clean:
 	@$(MAKE) -C tcplistener clean
