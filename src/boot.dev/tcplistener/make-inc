@@ -1,12 +1,11 @@
-#!/usr/bin/make
 #
 # C-CodeCamp-2024					June 02, 2024
 #
-# source: src/Makefile
+# source: src/http.dev/tcplistener/make-inc
 # author: @misael-diaz
 #
 # Synopsis:
-# Defines the Makefile for building the program with GNU make.
+# Defines the include file for building the program with GNU make.
 #
 # Copyright (c) 2024 Misael Díaz-Maldonado
 # This file is released under the GNU General Public License as published
@@ -14,15 +13,6 @@
 # (at your option) any later version.
 #
 
-all: chapter1 go boot-dev
-
-chapter1:
-	@$(MAKE) -C ch1
-go:
-	@$(MAKE) -C golang
-boot-dev:
-	@$(MAKE) -C boot.dev 
-clean:
-	@$(MAKE) -C ch1 clean
-	@$(MAKE) -C golang clean
-	@$(MAKE) -C boot.dev clean
+TCP_LISTENER_C = main.c
+TCP_LISTENER_O = main.o
+TCP_LISTENER_BIN = tcp-listener.bin

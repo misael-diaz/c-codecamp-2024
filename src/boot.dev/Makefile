@@ -2,7 +2,7 @@
 #
 # C-CodeCamp-2024					June 02, 2024
 #
-# source: src/Makefile
+# source: src/boot.dev/Makefile
 # author: @misael-diaz
 #
 # Synopsis:
@@ -14,15 +14,9 @@
 # (at your option) any later version.
 #
 
-all: chapter1 go boot-dev
+all: tcp-listener
 
-chapter1:
-	@$(MAKE) -C ch1
-go:
-	@$(MAKE) -C golang
-boot-dev:
-	@$(MAKE) -C boot.dev 
+tcp-listener:
+	@$(MAKE) -C tcplistener 
 clean:
-	@$(MAKE) -C ch1 clean
-	@$(MAKE) -C golang clean
-	@$(MAKE) -C boot.dev clean
+	@$(MAKE) -C tcplistener clean
