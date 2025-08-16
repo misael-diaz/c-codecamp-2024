@@ -2,7 +2,7 @@
 #
 # C-CodeCamp-2024					June 02, 2024
 #
-# source: src/boot.dev/Makefile
+# source: src/golang/tcplistener/Makefile
 # author: @misael-diaz
 #
 # Synopsis:
@@ -14,12 +14,15 @@
 # (at your option) any later version.
 #
 
-all: tcp-listener http-request
+include make-inc
 
-tcp-listener:
-	@$(MAKE) -C tcplistener
-http-request:
-	@$(MAKE) -C request
+all: $(REQUEST_BIN)
+
+$(REQUEST_BIN): $(REQUEST_O)
+	$(CC) $(CCOPT) $(REQUEST_O) -o $(REQUEST_BIN)
+
+$(REQUEST_O): $(HEADERS) $(REQUEST_C)
+	$(CC) $(INC) $(CCOPT) -c $(REQUEST_C) -o $(REQUEST_O)
+
 clean:
-	@$(MAKE) -C tcplistener clean
-	@$(MAKE) -C request clean
+	/bin/rm -f *.o *.bin
