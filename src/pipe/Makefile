@@ -2,7 +2,7 @@
 #
 # C-CodeCamp-2024					June 02, 2024
 #
-# source: src/Makefile
+# source: src/ch1/1.11/Makefile
 # author: @misael-diaz
 #
 # Synopsis:
@@ -14,18 +14,15 @@
 # (at your option) any later version.
 #
 
-all: chapter1 go boot-dev pipes
+include make-inc
 
-chapter1:
-	@$(MAKE) -C ch1
-go:
-	@$(MAKE) -C golang
-boot-dev:
-	@$(MAKE) -C boot.dev
-pipes:
-	@$(MAKE) -C pipe
+all: $(TEST_BIN)
+
+$(TEST_BIN): $(TEST_O)
+	$(CC) $(CCOPT) $(TEST_O) -o $(TEST_BIN)
+
+$(TEST_O): $(HEADERS) $(TEST_C)
+	$(CC) $(INC) $(CCOPT) -c $(TEST_C) -o $(TEST_O)
+
 clean:
-	@$(MAKE) -C ch1 clean
-	@$(MAKE) -C golang clean
-	@$(MAKE) -C boot.dev clean
-	@$(MAKE) -C pipe clean
+	/bin/rm -f *.o *.bin
