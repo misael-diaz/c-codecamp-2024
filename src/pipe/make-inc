@@ -15,4 +15,7 @@
 
 TEST_C = main.c
 TEST_O = main.o
-TEST_BIN = test-pipe.bin
+TEST_BIN = test-server.bin
+CLIENT_C = client.c
+CLIENT_O = client.o
+CLIENT_BIN = test-client.bin

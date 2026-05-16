@@ -16,13 +16,19 @@
 
 include make-inc
 
-all: $(TEST_BIN)
+all: $(TEST_BIN) $(CLIENT_BIN)
 
 $(TEST_BIN): $(TEST_O)
 	$(CC) $(CCOPT) $(TEST_O) -o $(TEST_BIN)
 
 $(TEST_O): $(HEADERS) $(TEST_C)
 	$(CC) $(INC) $(CCOPT) -c $(TEST_C) -o $(TEST_O)
+
+$(CLIENT_BIN): $(CLIENT_O)
+	$(CC) $(CCOPT) $(CLIENT_O) -o $(CLIENT_BIN)
+
+$(CLIENT_O): $(HEADERS) $(CLIENT_C)
+	$(CC) $(INC) $(CCOPT) -c $(CLIENT_C) -o $(CLIENT_O)
 
 clean:
 	/bin/rm -f *.o *.bin
